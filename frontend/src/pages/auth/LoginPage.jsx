@@ -47,12 +47,12 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left panel — violet/indigo gradient brand side */}
-      <div className="hidden lg:flex lg:w-[45%] flex-col bg-gradient-to-br from-violet-900 via-indigo-900 to-slate-900 relative overflow-hidden">
+      {/* Left panel — black brand side */}
+      <div className="hidden lg:flex lg:w-[45%] flex-col bg-gradient-to-br from-black via-zinc-900 to-zinc-800 relative overflow-hidden">
         {/* Decorative blobs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute -top-20 -left-20 w-80 h-80 bg-violet-500/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-0 w-64 h-64 bg-indigo-500/15 rounded-full blur-3xl" />
+          <div className="absolute -top-20 -left-20 w-80 h-80 bg-yellow-400/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-0 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl" />
           <div
             className="absolute inset-0 opacity-5"
             style={{
@@ -65,14 +65,14 @@ export default function LoginPage() {
         <div className="flex-1 flex flex-col justify-between p-12 relative">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group w-fit">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
-              <span className="text-white font-black text-sm">CD</span>
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-400/30">
+              <span className="text-black font-black text-sm">CD</span>
             </div>
             <div>
               <span className="font-black text-white text-xl tracking-tight leading-tight block">
-                CAMPUS <span className="text-violet-400">DWASO</span>
+                CAMPUS <span className="text-yellow-400">DWASO</span>
               </span>
-              <span className="text-violet-300/60 text-xs">Campus Marketplace</span>
+              <span className="text-zinc-400 text-xs">Campus Marketplace</span>
             </div>
           </Link>
 
@@ -80,26 +80,26 @@ export default function LoginPage() {
           <div>
             <h2 className="text-4xl font-black text-white leading-tight mb-4">
               Campus{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-blue-300">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-300">
                 Marketplace
               </span>
             </h2>
-            <p className="text-slate-300/70 text-base leading-relaxed mb-10">
-              Buy and sell within your institution safely. Verified vendors, secure payments, and everything a student needs.
+            <p className="text-zinc-300/70 text-base leading-relaxed mb-10">
+              Buy and sell across all Ghanaian campuses. Verified vendors, secure connections, and everything a student needs.
             </p>
 
             {/* Feature pills */}
             <div className="space-y-3 mb-10">
               {[
                 { icon: ShieldCheckIcon, text: 'Verified vendors with Ghana Card' },
-                { icon: BuildingLibraryIcon, text: 'Institution-locked marketplace' },
+                { icon: BuildingLibraryIcon, text: 'Browse products from all campuses' },
                 { icon: ShoppingBagIcon, text: 'Books, electronics, food & more' },
               ].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-                    <Icon className="h-4 w-4 text-violet-300" />
+                  <div className="w-8 h-8 rounded-lg bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center flex-shrink-0">
+                    <Icon className="h-4 w-4 text-yellow-400" />
                   </div>
-                  <span className="text-slate-300/80 text-sm">{text}</span>
+                  <span className="text-zinc-300/80 text-sm">{text}</span>
                 </div>
               ))}
             </div>
@@ -108,19 +108,19 @@ export default function LoginPage() {
             <div className="grid grid-cols-3 gap-4">
               {LEFT_STATS.map((stat) => (
                 <div key={stat.label} className="bg-white/5 border border-white/10 rounded-xl p-4 text-center backdrop-blur-sm">
-                  <div className="text-2xl font-black text-white mb-0.5">{stat.value}</div>
-                  <div className="text-violet-300/70 text-xs">{stat.label}</div>
+                  <div className="text-2xl font-black text-yellow-400 mb-0.5">{stat.value}</div>
+                  <div className="text-zinc-400 text-xs">{stat.label}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="h-1 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full" />
+          <div className="h-1 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full" />
         </div>
       </div>
 
       {/* Right panel — clean white form */}
-      <div className="flex-1 flex flex-col bg-white dark:bg-slate-950">
+      <div className="flex-1 flex flex-col bg-white dark:bg-zinc-950">
         <div className="flex-1 flex flex-col items-center justify-center p-8 sm:p-12">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -131,11 +131,11 @@ export default function LoginPage() {
             {/* Mobile logo */}
             <div className="text-center mb-10 lg:hidden">
               <Link to="/" className="inline-flex items-center gap-2 group">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg">
-                  <span className="text-white font-black">CD</span>
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg">
+                  <span className="text-black font-black">CD</span>
                 </div>
                 <span className="font-black text-2xl text-gray-900 dark:text-white">
-                  CAMPUS <span className="text-violet-600 dark:text-violet-400">DWASO</span>
+                  CAMPUS <span className="text-yellow-500 dark:text-yellow-400">DWASO</span>
                 </span>
               </Link>
               <p className="text-gray-400 mt-2 text-sm">Campus Marketplace Ghana</p>
@@ -210,12 +210,12 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-800 text-center">
+            <div className="mt-8 pt-6 border-t border-gray-100 dark:border-zinc-800 text-center">
               <p className="text-sm text-gray-500 dark:text-gray-400">
                 Don't have an account?{' '}
                 <Link
                   to="/register"
-                  className="font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
+                  className="font-semibold text-yellow-500 dark:text-yellow-400 hover:text-yellow-600 dark:hover:text-yellow-300 transition-colors"
                 >
                   Create Account
                 </Link>

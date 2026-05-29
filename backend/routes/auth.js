@@ -22,4 +22,19 @@ router.get('/me', protect, getMe);
 router.put('/profile', protect, uploadFields, updateProfile);
 router.put('/change-password', protect, changePassword);
 
+router.put('/update-location', protect, async (req, res) => {
+  try {
+    const { region, institution, institutionType } = req.body;
+    const User = require('../models/User');
+    const updated = await User.findByIdAndUpdate(
+      req.user._id,
+      { region, institution, institutionType },
+      { new: true }
+    ).populate('region', 'name code');
+    res.json({ success: true, user: updated });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;

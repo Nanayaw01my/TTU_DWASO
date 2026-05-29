@@ -14,6 +14,8 @@ export default function BrowseProducts() {
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({});
   const [showFilters, setShowFilters] = useState(false);
+  const [regions, setRegions] = useState([]);
+  const [selectedRegionInstitutions, setSelectedRegionInstitutions] = useState([]);
 
   const [filters, setFilters] = useState({
     search: searchParams.get('search') || '',
@@ -24,7 +26,13 @@ export default function BrowseProducts() {
     sortBy: 'createdAt',
     order: 'desc',
     page: 1,
+    region: '',
+    institution: '',
   });
+
+  useEffect(() => {
+    api.get('/regions').then(({ data }) => setRegions(data.regions || []));
+  }, []);
 
   const fetchProducts = useCallback(async () => {
     setLoading(true);
@@ -50,28 +58,27 @@ export default function BrowseProducts() {
   };
 
   const clearFilters = () => {
-    setFilters({ search: '', category: '', condition: '', minPrice: '', maxPrice: '', sortBy: 'createdAt', order: 'desc', page: 1 });
+    setFilters({ search: '', category: '', condition: '', minPrice: '', maxPrice: '', sortBy: 'createdAt', order: 'desc', page: 1, region: '', institution: '' });
+    setSelectedRegionInstitutions([]);
   };
 
-  const hasActiveFilters = filters.search || filters.category || filters.condition || filters.minPrice || filters.maxPrice;
+  const hasActiveFilters = filters.search || filters.category || filters.condition || filters.minPrice || filters.maxPrice || filters.region || filters.institution;
 
   return (
     <DashboardLayout>
       <div className="page-container py-8">
         {/* Header */}
         <div className="mb-6">
-          <h1 className="section-title">Browse Products</h1>
-          {user && (
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-              Showing products from <span className="font-semibold text-primary-600">{user.institution}</span>
-            </p>
-          )}
+          <h1 className="section-title">Browse all campus products</h1>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+            Products from all institutions across Ghana
+          </p>
         </div>
 
         {/* Search bar + filter toggle */}
         <div className="flex gap-3 mb-6">
           <div className="flex-1 relative">
-            <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <MagnifyingGlassIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-5 w-5 text-zinc-400" />
             <input
               type="text"
               placeholder="Search products..."
@@ -84,14 +91,14 @@ export default function BrowseProducts() {
             onClick={() => setShowFilters(!showFilters)}
             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border font-medium text-sm transition-all ${
               showFilters || hasActiveFilters
-                ? 'bg-primary-50 border-primary-300 text-primary-700 dark:bg-primary-900/20 dark:border-primary-700 dark:text-primary-300'
-                : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300'
+                ? 'bg-yellow-50 border-yellow-400 text-yellow-700 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300'
+                : 'bg-white dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300'
             }`}
           >
             <FunnelIcon className="h-4 w-4" />
             Filters
             {hasActiveFilters && (
-              <span className="bg-primary-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              <span className="bg-yellow-400 text-black text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
                 !
               </span>
             )}
@@ -101,23 +108,41 @@ export default function BrowseProducts() {
         {/* Filters panel */}
         {showFilters && (
           <div className="card p-5 mb-6 animate-fade-in">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Category</label>
+                <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">Region</label>
+                <select value={filters.region} onChange={(e) => {
+                  const r = regions.find(r => r._id === e.target.value);
+                  setSelectedRegionInstitutions(r?.institutions || []);
+                  setFilters(prev => ({ ...prev, region: e.target.value, institution: '', page: 1 }));
+                }} className="input-field">
+                  <option value="">All Regions</option>
+                  {regions.map(r => <option key={r._id} value={r._id}>{r.name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">Institution</label>
+                <select value={filters.institution} onChange={(e) => updateFilter('institution', e.target.value)} className="input-field" disabled={!filters.region}>
+                  <option value="">All Institutions</option>
+                  {selectedRegionInstitutions.map(i => <option key={i.name} value={i.name}>{i.name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">Category</label>
                 <select value={filters.category} onChange={(e) => updateFilter('category', e.target.value)} className="input-field">
                   <option value="">All Categories</option>
                   {PRODUCT_CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Condition</label>
+                <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">Condition</label>
                 <select value={filters.condition} onChange={(e) => updateFilter('condition', e.target.value)} className="input-field">
                   <option value="">Any Condition</option>
                   {PRODUCT_CONDITIONS.map((c) => <option key={c} value={c}>{c}</option>)}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Min Price (GHS)</label>
+                <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">Min Price (GHS)</label>
                 <input
                   type="number"
                   min="0"
@@ -128,7 +153,7 @@ export default function BrowseProducts() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">Max Price (GHS)</label>
+                <label className="block text-xs font-semibold text-zinc-500 uppercase tracking-wide mb-1.5">Max Price (GHS)</label>
                 <input
                   type="number"
                   min="0"
@@ -140,9 +165,9 @@ export default function BrowseProducts() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-100 dark:border-gray-800">
+            <div className="flex items-center justify-between mt-4 pt-4 border-t border-zinc-100 dark:border-zinc-800">
               <div className="flex items-center gap-3">
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Sort by</label>
+                <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Sort by</label>
                 <select value={`${filters.sortBy}-${filters.order}`} onChange={(e) => {
                   const [sortBy, order] = e.target.value.split('-');
                   setFilters(prev => ({ ...prev, sortBy, order, page: 1 }));
@@ -165,7 +190,7 @@ export default function BrowseProducts() {
 
         {/* Results count */}
         {!loading && (
-          <p className="text-sm text-gray-500 mb-4">
+          <p className="text-sm text-zinc-500 mb-4">
             {pagination.total || 0} product{pagination.total !== 1 ? 's' : ''} found
           </p>
         )}
@@ -178,9 +203,9 @@ export default function BrowseProducts() {
         ) : products.length === 0 ? (
           <div className="text-center py-20">
             <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2">No products found</h3>
-            <p className="text-gray-500 dark:text-gray-400 mb-6">
-              {hasActiveFilters ? 'Try adjusting your filters' : 'No products available at your institution yet'}
+            <h3 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 mb-2">No products found</h3>
+            <p className="text-zinc-500 dark:text-zinc-400 mb-6">
+              {hasActiveFilters ? 'Try adjusting your filters' : 'No products available yet'}
             </p>
             {hasActiveFilters && (
               <button onClick={clearFilters} className="btn-secondary">Clear Filters</button>
@@ -202,7 +227,7 @@ export default function BrowseProducts() {
             >
               Previous
             </button>
-            <span className="text-sm text-gray-500 px-4">
+            <span className="text-sm text-zinc-500 px-4">
               Page {pagination.page} of {pagination.pages}
             </span>
             <button

@@ -26,21 +26,23 @@ exports.createProduct = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
   const {
-    institution,
-    category,
     search,
+    category,
+    condition,
     minPrice,
     maxPrice,
-    condition,
-    page = 1,
-    limit = 12,
     sortBy = 'createdAt',
     order = 'desc',
+    page = 1,
+    limit = 12,
+    institution,
+    region,
   } = req.query;
 
   const query = { isAvailable: true, isFlagged: false };
 
   if (institution) query.institution = institution;
+  if (region) query.region = region;
   if (category) query.category = category;
   if (condition) query.condition = condition;
   if (minPrice || maxPrice) {
@@ -50,11 +52,6 @@ exports.getProducts = async (req, res) => {
   }
   if (search) {
     query.$text = { $search: search };
-  }
-
-  // Students only see their own institution's products
-  if (req.user && req.user.role === 'student') {
-    query.institution = req.user.institution;
   }
 
   const skip = (Number(page) - 1) * Number(limit);

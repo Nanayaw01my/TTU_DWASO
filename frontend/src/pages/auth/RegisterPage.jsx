@@ -104,7 +104,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-violet-50 dark:from-slate-950 dark:to-indigo-950 py-10 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 py-10 px-4">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -113,11 +113,11 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center shadow-lg">
-              <span className="text-white font-black text-lg">CD</span>
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg">
+              <span className="text-black font-black text-lg">CD</span>
             </div>
             <span className="font-black text-2xl text-gray-900 dark:text-white">
-              CAMPUS <span className="text-violet-600 dark:text-violet-400">DWASO</span>
+              CAMPUS <span className="text-yellow-500 dark:text-yellow-400">DWASO</span>
             </span>
           </Link>
         </div>
@@ -135,7 +135,7 @@ export default function RegisterPage() {
                 onClick={() => setRole(r)}
                 className={`p-3 rounded-xl border-2 text-sm font-semibold capitalize transition-all ${
                   role === r
-                    ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300'
+                    ? 'border-yellow-400 bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300'
                     : 'border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:border-gray-300'
                 }`}
               >
@@ -357,7 +357,7 @@ export default function RegisterPage() {
           <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-800 text-center">
             <p className="text-sm text-gray-500">
               Already have an account?{' '}
-              <Link to="/login" className="font-semibold text-violet-600 dark:text-violet-400 hover:underline">Sign In</Link>
+              <Link to="/login" className="font-semibold text-yellow-500 dark:text-yellow-400 hover:underline">Sign In</Link>
             </p>
           </div>
         </div>

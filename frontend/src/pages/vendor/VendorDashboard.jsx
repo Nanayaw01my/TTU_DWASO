@@ -21,8 +21,8 @@ const StatCard = ({ value, label, icon: Icon, color, highlight }) => (
       <Icon className="h-6 w-6 text-white" />
     </div>
     <div>
-      <p className="text-2xl font-black text-gray-900 dark:text-gray-100">{value ?? 0}</p>
-      <p className="text-sm text-gray-500 dark:text-gray-400">{label}</p>
+      <p className="text-2xl font-black text-zinc-900 dark:text-zinc-100">{value ?? 0}</p>
+      <p className="text-sm text-zinc-500 dark:text-zinc-400">{label}</p>
     </div>
   </div>
 );
@@ -84,8 +84,8 @@ export default function VendorDashboard() {
               <div className="w-20 h-20 rounded-2xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-4xl mx-auto mb-6">
                 ⏳
               </div>
-              <h2 className="text-2xl font-black text-gray-900 dark:text-gray-100 mb-3">Pending Approval</h2>
-              <p className="text-gray-500 dark:text-gray-400 leading-relaxed mb-6">
+              <h2 className="text-2xl font-black text-zinc-900 dark:text-zinc-100 mb-3">Pending Approval</h2>
+              <p className="text-zinc-500 dark:text-zinc-400 leading-relaxed mb-6">
                 Your vendor account is under review. Our admin team will verify your documents and approve your account shortly.
               </p>
               <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/40 rounded-xl p-4 text-left">
@@ -112,7 +112,7 @@ export default function VendorDashboard() {
             <h1 className="section-title">{user?.businessName || 'Vendor Dashboard'}</h1>
             <div className="flex flex-wrap items-center gap-2 mt-1">
               <span className={getInstitutionBadgeClass(user?.institutionType)}>{getInstitutionLabel(user?.institutionType)}</span>
-              <span className="text-sm text-gray-500 dark:text-gray-400">{user?.institution}</span>
+              <span className="text-sm text-zinc-500 dark:text-zinc-400">{user?.institution}</span>
             </div>
           </div>
           <Link to="/vendor/products/add" className="btn-primary flex items-center gap-2 w-fit">
@@ -122,31 +122,31 @@ export default function VendorDashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard value={stats.total} label="Total Products" icon={ShoppingBagIcon} color="bg-violet-500" />
-          <StatCard value={stats.available} label="Available" icon={CheckCircleIcon} color="bg-indigo-500" />
-          <StatCard value={stats.totalViews} label="Total Views" icon={EyeIcon} color="bg-blue-500" />
-          <StatCard value={stats.pending} label="Unavailable" icon={PlusIcon} color="bg-gray-400" />
+          <StatCard value={stats.total} label="Total Products" icon={ShoppingBagIcon} color="bg-yellow-400" />
+          <StatCard value={stats.available} label="Available" icon={CheckCircleIcon} color="bg-amber-500" />
+          <StatCard value={stats.totalViews} label="Total Views" icon={EyeIcon} color="bg-zinc-700" />
+          <StatCard value={stats.pending} label="Unavailable" icon={PlusIcon} color="bg-zinc-500" />
         </div>
 
         {/* Business profile card */}
         <div className="card p-6 mb-8">
-          <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-4">Business Profile</h3>
+          <h3 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-4">Business Profile</h3>
           <div className="flex items-center gap-4">
             {user?.passportPhoto ? (
               <img src={user.passportPhoto} alt={user.fullName} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white font-black text-2xl flex-shrink-0">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-black font-black text-2xl flex-shrink-0">
                 {user?.fullName?.[0]}
               </div>
             )}
             <div className="flex-1 min-w-0">
-              <h2 className="text-xl font-black text-gray-900 dark:text-gray-100">{user?.businessName}</h2>
+              <h2 className="text-xl font-black text-zinc-900 dark:text-zinc-100">{user?.businessName}</h2>
               {user?.businessDescription && (
-                <p className="text-gray-500 dark:text-gray-400 text-sm mt-0.5 line-clamp-2">{user?.businessDescription}</p>
+                <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-0.5 line-clamp-2">{user?.businessDescription}</p>
               )}
               <div className="flex flex-wrap gap-3 mt-2">
-                {user?.phone && <span className="text-xs text-gray-400">{user.phone}</span>}
-                {user?.email && <span className="text-xs text-gray-400">{user.email}</span>}
+                {user?.phone && <span className="text-xs text-zinc-400">{user.phone}</span>}
+                {user?.email && <span className="text-xs text-zinc-400">{user.email}</span>}
               </div>
             </div>
           </div>
@@ -155,10 +155,10 @@ export default function VendorDashboard() {
         {/* Products list */}
         <div className="flex items-center justify-between mb-5">
           <div>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Recent Products</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Your latest listings</p>
+            <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100">Recent Products</h2>
+            <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">Your latest listings</p>
           </div>
-          <Link to="/vendor/products" className="text-sm font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors">
+          <Link to="/vendor/products" className="text-sm font-semibold text-yellow-500 dark:text-yellow-400 hover:text-yellow-600 dark:hover:text-yellow-300 transition-colors">
             Manage All
           </Link>
         </div>
@@ -169,9 +169,9 @@ export default function VendorDashboard() {
           </div>
         ) : products.length === 0 ? (
           <div className="text-center py-16 card mb-8">
-            <ShoppingBagIcon className="h-16 w-16 mx-auto text-gray-300 mb-4" />
-            <h3 className="text-lg font-bold text-gray-700 dark:text-gray-300">No products yet</h3>
-            <p className="text-gray-400 mt-1 text-sm mb-5">Start listing items to reach students at {user?.institution}</p>
+            <ShoppingBagIcon className="h-16 w-16 mx-auto text-zinc-300 mb-4" />
+            <h3 className="text-lg font-bold text-zinc-700 dark:text-zinc-300">No products yet</h3>
+            <p className="text-zinc-400 mt-1 text-sm mb-5">Start listing items to reach students at {user?.institution}</p>
             <Link to="/vendor/products/add" className="btn-primary inline-flex items-center gap-2">
               <PlusIcon className="h-5 w-5" /> Add First Product
             </Link>
@@ -184,15 +184,14 @@ export default function VendorDashboard() {
                   <img
                     src={p.images?.[0] || '/placeholder.svg'}
                     alt={p.title}
-                    className="w-20 h-20 object-cover rounded-xl"
+                    className="w-20 h-20 object-cover rounded-xl flex-shrink-0"
                     onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder.svg'; }}
                   />
-                  <p className="text-[9px] text-gray-400 break-all w-20 mt-1">{p.images?.[0] || 'NO IMAGE'}</p>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{p.title}</h4>
-                  <div className="flex items-center gap-3 text-xs text-gray-400 mt-0.5">
-                    <span className="font-medium text-gray-700 dark:text-gray-300">{formatPrice(p.price)}</span>
+                  <h4 className="font-semibold text-zinc-900 dark:text-zinc-100 truncate">{p.title}</h4>
+                  <div className="flex items-center gap-3 text-xs text-zinc-400 mt-0.5">
+                    <span className="font-medium text-zinc-700 dark:text-zinc-300">{formatPrice(p.price)}</span>
                     <span>·</span>
                     <span className="flex items-center gap-1"><EyeIcon className="h-3.5 w-3.5" />{p.views || 0} views</span>
                     <span>·</span>
@@ -204,14 +203,14 @@ export default function VendorDashboard() {
                     onClick={() => handleToggleAvailability(p._id, p.isAvailable)}
                     className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
                       p.isAvailable
-                        ? 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-400'
-                        : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400'
+                        ? 'bg-yellow-100 text-yellow-700 hover:bg-yellow-200 dark:bg-yellow-900/30 dark:text-yellow-400'
+                        : 'bg-zinc-100 text-zinc-500 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400'
                     }`}
                   >
                     {p.isAvailable ? 'Available' : 'Unavailable'}
                   </button>
-                  <Link to={`/vendor/products/edit/${p._id}`} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                    <PencilSquareIcon className="h-4 w-4 text-gray-500" />
+                  <Link to={`/vendor/products/edit/${p._id}`} className="p-1.5 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors">
+                    <PencilSquareIcon className="h-4 w-4 text-zinc-500" />
                   </Link>
                   <button onClick={() => handleDelete(p._id)} className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                     <span className="text-red-500 text-lg leading-none">×</span>
@@ -225,13 +224,13 @@ export default function VendorDashboard() {
         {/* Quick tips */}
         <div className="card p-6">
           <div className="flex items-center gap-2 mb-4">
-            <LightBulbIcon className="h-5 w-5 text-amber-500" />
-            <h3 className="font-bold text-gray-900 dark:text-gray-100">Tips for selling more</h3>
+            <LightBulbIcon className="h-5 w-5 text-yellow-500" />
+            <h3 className="font-bold text-zinc-900 dark:text-zinc-100">Tips for selling more</h3>
           </div>
           <ul className="space-y-2">
             {TIPS.map((tip, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="mt-0.5 w-5 h-5 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</span>
+              <li key={i} className="flex items-start gap-2 text-sm text-zinc-500 dark:text-zinc-400">
+                <span className="mt-0.5 w-5 h-5 rounded-full bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</span>
                 {tip}
               </li>
             ))}
