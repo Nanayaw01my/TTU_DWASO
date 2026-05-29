@@ -156,6 +156,6 @@ export default function AddProductPage() {
           </div>
         </form>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
