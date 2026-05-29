@@ -35,10 +35,7 @@ const ProductSchema = new mongoose.Schema(
     },
     images: {
       type: [String],
-      validate: [
-        (arr) => arr.length >= 1 && arr.length <= 5,
-        'Product must have 1 to 5 images',
-      ],
+      validate: [(arr) => arr.length <= 5, 'Product cannot have more than 5 images'],
     },
     vendorId: {
       type: mongoose.Schema.Types.ObjectId,

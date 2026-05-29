@@ -3,11 +3,7 @@ const Product = require('../models/Product');
 exports.createProduct = async (req, res) => {
   const { title, description, price, category, condition, negotiable } = req.body;
 
-  if (!req.files || req.files.length === 0) {
-    return res.status(400).json({ success: false, message: 'At least one product image is required' });
-  }
-
-  const images = req.files.map((file) => file.path);
+  const images = (req.files || []).filter((f) => f.path).map((f) => f.path);
 
   const product = await Product.create({
     title,
