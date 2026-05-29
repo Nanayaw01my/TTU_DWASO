@@ -122,9 +122,9 @@ export default function VendorDashboard() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard value={stats.total} label="Total Products" icon={ShoppingBagIcon} color="bg-sky-500" />
-          <StatCard value={stats.available} label="Available" icon={CheckCircleIcon} color="bg-emerald-500" />
-          <StatCard value={stats.totalViews} label="Total Views" icon={EyeIcon} color="bg-teal-500" />
+          <StatCard value={stats.total} label="Total Products" icon={ShoppingBagIcon} color="bg-violet-500" />
+          <StatCard value={stats.available} label="Available" icon={CheckCircleIcon} color="bg-indigo-500" />
+          <StatCard value={stats.totalViews} label="Total Views" icon={EyeIcon} color="bg-blue-500" />
           <StatCard value={stats.pending} label="Unavailable" icon={PlusIcon} color="bg-gray-400" />
         </div>
 
@@ -135,7 +135,7 @@ export default function VendorDashboard() {
             {user?.passportPhoto ? (
               <img src={user.passportPhoto} alt={user.fullName} className="w-16 h-16 rounded-full object-cover flex-shrink-0" />
             ) : (
-              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-sky-400 to-emerald-500 flex items-center justify-center text-white font-black text-2xl flex-shrink-0">
+              <div className="w-16 h-16 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white font-black text-2xl flex-shrink-0">
                 {user?.fullName?.[0]}
               </div>
             )}
@@ -158,7 +158,7 @@ export default function VendorDashboard() {
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">Recent Products</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">Your latest listings</p>
           </div>
-          <Link to="/vendor/products" className="text-sm font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors">
+          <Link to="/vendor/products" className="text-sm font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors">
             Manage All
           </Link>
         </div>
@@ -181,9 +181,10 @@ export default function VendorDashboard() {
             {products.map((p) => (
               <div key={p._id} className="card p-4 flex items-center gap-4">
                 <img
-                  src={p.images?.[0] || '/placeholder.jpg'}
+                  src={p.images?.[0] || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%231e1b4b'/%3E%3Cpath d='M20 55 L30 40 L40 48 L52 32 L60 55Z' fill='%234c1d95' opacity='0.8'/%3E%3Ccircle cx='28' cy='28' r='8' fill='%234c1d95' opacity='0.8'/%3E%3C/svg%3E"}
                   alt={p.title}
-                  className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
+                  className="w-20 h-20 object-cover rounded-xl flex-shrink-0"
+                  onError={(e) => { e.target.src = '/placeholder.svg'; }}
                 />
                 <div className="flex-1 min-w-0">
                   <h4 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{p.title}</h4>
@@ -227,7 +228,7 @@ export default function VendorDashboard() {
           <ul className="space-y-2">
             {TIPS.map((tip, i) => (
               <li key={i} className="flex items-start gap-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="mt-0.5 w-5 h-5 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400 flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</span>
+                <span className="mt-0.5 w-5 h-5 rounded-full bg-violet-100 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 flex items-center justify-center text-xs font-bold flex-shrink-0">{i + 1}</span>
                 {tip}
               </li>
             ))}

@@ -53,20 +53,18 @@ function SidebarInner({ onLinkClick }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-[#0a0f1e]">
-      {/* Ghana strip */}
-      <div className="h-1 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 flex-shrink-0" />
+    <div className="flex flex-col h-full bg-[#0d0d1a]">
 
       {/* Logo */}
       <div className="flex items-center gap-3 px-6 py-5 flex-shrink-0">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-400 to-emerald-500 flex items-center justify-center shadow-lg shadow-sky-500/30 flex-shrink-0">
+        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center shadow-lg shadow-violet-500/30 flex-shrink-0">
           <span className="text-white font-black text-sm">CD</span>
         </div>
         <div className="min-w-0">
           <span className="font-black text-white text-lg tracking-tight leading-tight block">
-            CAMPUS <span className="text-sky-400">DWASO</span>
+            CAMPUS <span className="text-violet-400">DWASO</span>
           </span>
-          <p className="text-sky-300/60 text-xs capitalize leading-tight">{user?.role} portal</p>
+          <p className="text-violet-300/60 text-xs capitalize leading-tight">{user?.role} portal</p>
         </div>
       </div>
 
@@ -81,14 +79,14 @@ function SidebarInner({ onLinkClick }) {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? 'bg-sky-500/20 text-sky-300 shadow-lg shadow-sky-500/10 border border-sky-500/20'
+                  ? 'bg-violet-600/20 text-violet-300 border-l-2 border-violet-500'
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`
             }
           >
             {({ isActive }) => (
               <>
-                <link.icon className={`h-5 w-5 flex-shrink-0 ${isActive ? 'text-sky-400' : ''}`} />
+                <link.icon className={`h-5 w-5 flex-shrink-0 ${isActive ? 'text-violet-400' : ''}`} />
                 {link.label}
               </>
             )}
@@ -113,7 +111,7 @@ function SidebarInner({ onLinkClick }) {
 
         {/* User card */}
         <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-400 to-emerald-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
             {user?.fullName?.[0]?.toUpperCase() || '?'}
           </div>
           <div className="flex-1 min-w-0">
@@ -191,11 +189,11 @@ export default function DashboardLayout({ children }) {
 
           {/* Mobile logo */}
           <div className="flex items-center gap-2 lg:hidden">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-emerald-600 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-violet-500 to-indigo-600 flex items-center justify-center">
               <span className="text-white font-black text-xs">CD</span>
             </div>
             <span className="font-black text-gray-900 dark:text-white text-sm">
-              CAMPUS <span className="text-sky-600 dark:text-sky-400">DWASO</span>
+              CAMPUS <span className="text-violet-600 dark:text-violet-400">DWASO</span>
             </span>
           </div>
 
@@ -210,7 +208,7 @@ export default function DashboardLayout({ children }) {
                 <MoonIcon className="h-5 w-5 text-gray-500" />
               )}
             </button>
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-400 to-emerald-500 flex items-center justify-center text-white font-bold text-sm">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-white font-bold text-sm">
               {user?.fullName?.[0]?.toUpperCase() || '?'}
             </div>
           </div>

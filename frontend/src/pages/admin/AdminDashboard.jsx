@@ -69,7 +69,7 @@ export default function AdminDashboard() {
 
         {/* Stats grid — row 1 */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-          <StatCard label="Total Students" value={stats.totalStudents} icon={UsersIcon} color="bg-sky-500" to="/admin/users?role=student" />
+          <StatCard label="Total Students" value={stats.totalStudents} icon={UsersIcon} color="bg-violet-500" to="/admin/users?role=student" />
           <StatCard label="Total Vendors" value={stats.totalVendors} icon={BuildingLibraryIcon} color="bg-indigo-500" to="/admin/users?role=vendor" />
           <StatCard
             label="Pending Approvals"
@@ -79,11 +79,11 @@ export default function AdminDashboard() {
             to="/admin/vendors"
             highlight={hasPendingVendors}
           />
-          <StatCard label="Total Products" value={stats.totalProducts} icon={ShoppingBagIcon} color="bg-emerald-500" to="/admin/products" />
+          <StatCard label="Total Products" value={stats.totalProducts} icon={ShoppingBagIcon} color="bg-blue-500" to="/admin/products" />
         </div>
         {/* Stats grid — row 2 */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <StatCard label="Approved Vendors" value={stats.approvedVendors} icon={CheckCircleIcon} color="bg-teal-500" />
+          <StatCard label="Approved Vendors" value={stats.approvedVendors} icon={CheckCircleIcon} color="bg-indigo-500" />
           <StatCard
             label="Flagged Products"
             value={stats.flaggedProducts}
@@ -156,12 +156,12 @@ export default function AdminDashboard() {
           <div className="card p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-gray-900 dark:text-gray-100">Recent Vendors</h2>
-              <Link to="/admin/vendors" className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-semibold">View All</Link>
+              <Link to="/admin/vendors" className="text-xs text-violet-600 dark:text-violet-400 hover:underline font-semibold">View All</Link>
             </div>
             <div className="space-y-3">
               {data?.recentVendors?.length > 0 ? data.recentVendors.map((v) => (
                 <div key={v._id} className="flex items-center gap-3 py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
-                  <div className="w-9 h-9 rounded-full bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400 font-bold text-sm flex-shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center text-violet-600 dark:text-violet-400 font-bold text-sm flex-shrink-0">
                     {v.fullName?.[0]}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -182,12 +182,12 @@ export default function AdminDashboard() {
           <div className="card p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="font-bold text-gray-900 dark:text-gray-100">Recent Products</h2>
-              <Link to="/admin/products" className="text-xs text-sky-600 dark:text-sky-400 hover:underline font-semibold">View All</Link>
+              <Link to="/admin/products" className="text-xs text-violet-600 dark:text-violet-400 hover:underline font-semibold">View All</Link>
             </div>
             <div className="space-y-3">
               {data?.recentProducts?.length > 0 ? data.recentProducts.map((p) => (
                 <div key={p._id} className="flex items-center gap-3 py-2 border-b border-gray-50 dark:border-gray-800 last:border-0">
-                  <img src={p.images?.[0] || '/placeholder.jpg'} alt={p.title} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
+                  <img src={p.images?.[0] || '/placeholder.svg'} alt={p.title} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" onError={(e) => { e.target.src = '/placeholder.svg'; }} />
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{p.title}</p>
                     <p className="text-xs text-gray-400">{p.vendorId?.businessName || p.vendorId?.fullName} · {formatRelativeTime(p.createdAt)}</p>
@@ -211,8 +211,8 @@ export default function AdminDashboard() {
               {
                 label: 'Approval Rate',
                 value: stats.totalVendors ? `${Math.round(((stats.approvedVendors || 0) / stats.totalVendors) * 100)}%` : '—',
-                color: 'text-emerald-600 dark:text-emerald-400',
-                bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+                color: 'text-indigo-600 dark:text-indigo-400',
+                bg: 'bg-indigo-50 dark:bg-indigo-900/20',
               },
               {
                 label: 'Pending Queue',

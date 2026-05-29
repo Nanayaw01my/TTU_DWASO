@@ -60,17 +60,17 @@ export default function MyProductsPage() {
           <div className="space-y-3">
             {products.map((p) => (
               <div key={p._id} className="card p-4 flex gap-4 items-center">
-                <img src={p.images?.[0] || '/placeholder.jpg'} alt={p.title} className="w-20 h-20 object-cover rounded-xl flex-shrink-0" />
+                <img src={p.images?.[0] || '/placeholder.svg'} alt={p.title} className="w-20 h-20 object-cover rounded-xl flex-shrink-0" onError={(e) => { e.target.src = '/placeholder.svg'; }} />
                 <div className="flex-1 min-w-0">
                   <h3 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{p.title}</h3>
                   <div className="flex flex-wrap gap-2 mt-1">
-                    <span className="text-sm font-bold text-primary-600">{formatPrice(p.price)}</span>
+                    <span className="text-sm font-bold text-violet-600 dark:text-violet-400">{formatPrice(p.price)}</span>
                     <span className="text-xs text-gray-400">· {p.category}</span>
                     <span className="flex items-center gap-1 text-xs text-gray-400"><EyeIcon className="h-3.5 w-3.5" />{p.views || 0} views</span>
                     <span className="text-xs text-gray-400">· {formatRelativeTime(p.createdAt)}</span>
                   </div>
                   <div className="mt-1.5">
-                    <span className={`inline-flex text-xs px-2 py-0.5 rounded-full font-medium ${p.isAvailable ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                    <span className={`inline-flex text-xs px-2 py-0.5 rounded-full font-medium ${p.isAvailable ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400' : 'bg-gray-100 text-gray-500'}`}>
                       {p.isAvailable ? 'Available' : 'Unavailable'}
                     </span>
                     {p.isFlagged && <span className="ml-1.5 inline-flex text-xs px-2 py-0.5 rounded-full font-medium bg-red-100 text-red-700">Flagged</span>}
