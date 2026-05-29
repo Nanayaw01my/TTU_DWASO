@@ -180,12 +180,15 @@ export default function VendorDashboard() {
           <div className="space-y-3 mb-8">
             {products.map((p) => (
               <div key={p._id} className="card p-4 flex items-center gap-4">
-                <img
-                  src={p.images?.[0] || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' fill='%231e1b4b'/%3E%3Cpath d='M20 55 L30 40 L40 48 L52 32 L60 55Z' fill='%234c1d95' opacity='0.8'/%3E%3Ccircle cx='28' cy='28' r='8' fill='%234c1d95' opacity='0.8'/%3E%3C/svg%3E"}
-                  alt={p.title}
-                  className="w-20 h-20 object-cover rounded-xl flex-shrink-0"
-                  onError={(e) => { e.target.src = '/placeholder.svg'; }}
-                />
+                <div className="flex-shrink-0">
+                  <img
+                    src={p.images?.[0] || '/placeholder.svg'}
+                    alt={p.title}
+                    className="w-20 h-20 object-cover rounded-xl"
+                    onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder.svg'; }}
+                  />
+                  <p className="text-[9px] text-gray-400 break-all w-20 mt-1">{p.images?.[0] || 'NO IMAGE'}</p>
+                </div>
                 <div className="flex-1 min-w-0">
                   <h4 className="font-semibold text-gray-900 dark:text-gray-100 truncate">{p.title}</h4>
                   <div className="flex items-center gap-3 text-xs text-gray-400 mt-0.5">
