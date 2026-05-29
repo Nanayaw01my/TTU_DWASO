@@ -81,9 +81,10 @@ export default function ProductDetailsPage() {
           <div className="space-y-4">
             <div className="aspect-square rounded-2xl overflow-hidden bg-gray-100 dark:bg-gray-800">
               <img
-                src={images?.[activeImage] || '/placeholder.jpg'}
+                src={images?.[activeImage] || '/placeholder.svg'}
                 alt={title}
                 className="w-full h-full object-cover"
+                onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder.svg'; }}
               />
             </div>
             {images?.length > 1 && (
@@ -129,7 +130,7 @@ export default function ProductDetailsPage() {
             <div className="flex items-baseline gap-3">
               <span className="text-4xl font-black text-primary-700 dark:text-primary-300">{formatPrice(price)}</span>
               {negotiable && (
-                <span className="text-sm text-green-600 dark:text-green-400 font-semibold bg-green-50 dark:bg-green-900/20 px-2 py-1 rounded-lg">
+                <span className="text-sm text-violet-600 dark:text-violet-400 font-semibold bg-violet-50 dark:bg-violet-900/20 px-2 py-1 rounded-lg">
                   Negotiable
                 </span>
               )}

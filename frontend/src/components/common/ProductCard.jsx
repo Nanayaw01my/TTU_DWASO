@@ -15,10 +15,11 @@ const ProductCard = ({ product }) => {
       <Link to={`/products/${_id}`}>
         <div className="relative h-56 bg-gray-100 dark:bg-gray-800 overflow-hidden">
           <img
-            src={images?.[0] || '/placeholder.jpg'}
+            src={images?.[0] || '/placeholder.svg'}
             alt={title}
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out"
             loading="lazy"
+            onError={(e) => { e.target.onerror = null; e.target.src = '/placeholder.svg'; }}
           />
           {/* Gradient overlay on hover */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
