@@ -15,7 +15,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const CATEGORIES = [
   { name: 'Books', emoji: '📚', color: 'from-blue-500 to-indigo-600' },
-  { name: 'Electronics', emoji: '💻', color: 'from-violet-500 to-purple-600' },
+  { name: 'Electronics', emoji: '💻', color: 'from-sky-500 to-cyan-600' },
   { name: 'Furniture', emoji: '🪑', color: 'from-amber-500 to-orange-600' },
   { name: 'Clothes', emoji: '👕', color: 'from-pink-500 to-rose-600' },
   { name: 'Food', emoji: '🍱', color: 'from-green-500 to-emerald-600' },
@@ -29,22 +29,22 @@ const FEATURES = [
     icon: BuildingLibraryIcon,
     title: 'Institution-Locked',
     desc: 'Buy and sell only within your own institution. Safe, relevant, and community-focused.',
-    gradient: 'from-blue-500 to-indigo-600',
-    glow: 'shadow-blue-500/20',
+    gradient: 'from-sky-500 to-blue-600',
+    glow: 'shadow-sky-500/20',
   },
   {
     icon: ShieldCheckIcon,
     title: 'Verified Vendors',
     desc: 'All vendors undergo Ghana Card verification and admin approval before selling.',
-    gradient: 'from-green-500 to-emerald-600',
-    glow: 'shadow-green-500/20',
+    gradient: 'from-emerald-500 to-green-600',
+    glow: 'shadow-emerald-500/20',
   },
   {
     icon: ShoppingBagIcon,
     title: 'All Student Needs',
     desc: 'Books, electronics, furniture, food, nursing supplies, and teaching materials.',
-    gradient: 'from-violet-500 to-purple-600',
-    glow: 'shadow-violet-500/20',
+    gradient: 'from-sky-500 to-emerald-500',
+    glow: 'shadow-sky-500/20',
   },
 ];
 
@@ -89,12 +89,12 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-violet-950 via-purple-900 to-slate-900 text-white">
+      <section className="relative overflow-hidden bg-gradient-to-br from-sky-950 via-slate-900 to-emerald-950 text-white">
         {/* Decorative blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-violet-600/20 rounded-full filter blur-3xl" />
-          <div className="absolute top-1/2 -right-32 w-80 h-80 bg-purple-500/20 rounded-full filter blur-3xl" />
-          <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-indigo-600/15 rounded-full filter blur-3xl" />
+          <div className="absolute -top-24 -left-24 w-96 h-96 bg-sky-600/20 rounded-full filter blur-3xl" />
+          <div className="absolute top-1/2 -right-32 w-80 h-80 bg-emerald-500/15 rounded-full filter blur-3xl" />
+          <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-sky-500/10 rounded-full filter blur-3xl" />
           {/* Grid pattern overlay */}
           <div
             className="absolute inset-0 opacity-5"
@@ -116,19 +116,19 @@ export default function HomePage() {
               transition={{ duration: 0.6 }}
             >
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm font-medium mb-8 border border-white/20">
-                <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 Ghana's Premier Campus Marketplace
               </div>
 
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] mb-6 tracking-tight">
                 Buy & Sell Within{' '}
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-violet-300 via-fuchsia-300 to-pink-300">
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-sky-300 via-emerald-300 to-teal-300">
                   Your Campus
                 </span>
               </h1>
 
-              <p className="text-lg text-violet-200/80 mb-10 max-w-2xl leading-relaxed">
-                TTU DWASO connects students, vendors, and institutions across all 16 regions of Ghana.
+              <p className="text-lg text-sky-100/70 mb-10 max-w-2xl leading-relaxed">
+                CAMPUS DWASO connects students, vendors, and institutions across all 16 regions of Ghana.
                 Shop safely within your university, nursing college, or teacher training college.
               </p>
 
@@ -141,7 +141,7 @@ export default function HomePage() {
                     placeholder="Search for products..."
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-violet-400/60 focus:bg-white/15 transition-all"
+                    className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-sky-400/60 focus:bg-white/15 transition-all"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' && search.trim()) {
                         window.location.href = `/student/browse?search=${encodeURIComponent(search)}`;
@@ -151,7 +151,7 @@ export default function HomePage() {
                 </div>
                 <Link
                   to={isAuthenticated ? `/student/browse?search=${encodeURIComponent(search)}` : '/login'}
-                  className="flex items-center gap-2 bg-violet-500 hover:bg-violet-400 text-white font-bold px-6 py-3.5 rounded-xl transition-all duration-200 whitespace-nowrap shadow-lg shadow-violet-500/30 hover:shadow-violet-400/40 hover:-translate-y-0.5"
+                  className="flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-white font-bold px-6 py-3.5 rounded-xl transition-all duration-200 whitespace-nowrap shadow-lg shadow-sky-500/30 hover:shadow-sky-400/40 hover:-translate-y-0.5"
                 >
                   Search
                 </Link>
@@ -160,7 +160,7 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-3">
                 <Link
                   to={getDashboardPath()}
-                  className="flex items-center gap-2 bg-white text-violet-700 font-bold px-7 py-3.5 rounded-xl hover:bg-violet-50 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                  className="flex items-center gap-2 bg-white text-sky-700 font-bold px-7 py-3.5 rounded-xl hover:bg-sky-50 transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                 >
                   {isAuthenticated ? 'My Dashboard' : 'Get Started'}
                   <ChevronRightIcon className="h-4 w-4" />
@@ -180,7 +180,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats */}
-      <section className="bg-gradient-to-r from-violet-900 to-purple-800 text-white py-10">
+      <section className="bg-gradient-to-r from-sky-800 to-emerald-800 text-white py-10">
         <div className="page-container">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {STATS.map((stat, i) => (
@@ -191,10 +191,10 @@ export default function HomePage() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
               >
-                <div className="text-4xl font-black mb-1 text-transparent bg-clip-text bg-gradient-to-br from-white to-violet-200">
+                <div className="text-4xl font-black mb-1 text-transparent bg-clip-text bg-gradient-to-br from-white to-sky-200">
                   {stat.value}
                 </div>
-                <div className="text-violet-300 text-sm font-medium">{stat.label}</div>
+                <div className="text-sky-200 text-sm font-medium">{stat.label}</div>
               </motion.div>
             ))}
           </div>
@@ -205,7 +205,7 @@ export default function HomePage() {
       <section className="py-20 bg-white dark:bg-slate-900">
         <div className="page-container">
           <div className="text-center mb-14">
-            <h2 className="text-3xl font-black text-gray-900 dark:text-gray-100 mb-3">Why TTU DWASO?</h2>
+            <h2 className="text-3xl font-black text-gray-900 dark:text-gray-100 mb-3">Why CAMPUS DWASO?</h2>
             <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">Built specifically for Ghanaian campus communities — secure, verified, and community-focused.</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -249,12 +249,12 @@ export default function HomePage() {
               <motion.div key={cat.name} variants={itemVariants}>
                 <Link
                   to={isAuthenticated ? `/student/browse?category=${encodeURIComponent(cat.name)}` : '/login'}
-                  className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1.5 hover:border-violet-200 dark:hover:border-violet-800/50 transition-all duration-300 text-center"
+                  className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1.5 hover:border-sky-200 dark:hover:border-sky-800/50 transition-all duration-300 text-center"
                 >
                   <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
                     {cat.emoji}
                   </div>
-                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
+                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                     {cat.name}
                   </span>
                 </Link>
@@ -274,7 +274,7 @@ export default function HomePage() {
             </div>
             <Link
               to={isAuthenticated ? '/student/browse' : '/login'}
-              className="flex items-center gap-1 text-sm font-semibold text-violet-600 dark:text-violet-400 hover:text-violet-700 dark:hover:text-violet-300 transition-colors"
+              className="flex items-center gap-1 text-sm font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
             >
               View all <ChevronRightIcon className="h-4 w-4" />
             </Link>
@@ -304,7 +304,7 @@ export default function HomePage() {
                 <ShoppingBagIcon className="h-10 w-10 opacity-40" />
               </div>
               <p className="text-lg font-medium text-gray-600 dark:text-gray-300">No products yet</p>
-              <p className="text-sm mt-1">Be the first to list something on TTU DWASO!</p>
+              <p className="text-sm mt-1">Be the first to list something on CAMPUS DWASO!</p>
             </div>
           )}
         </div>
@@ -312,10 +312,10 @@ export default function HomePage() {
 
       {/* CTA */}
       {!isAuthenticated && (
-        <section className="py-20 bg-gradient-to-br from-violet-950 via-purple-900 to-slate-900 relative overflow-hidden">
+        <section className="py-20 bg-gradient-to-br from-sky-950 via-slate-900 to-emerald-950 relative overflow-hidden">
           <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />
+            <div className="absolute top-0 left-1/4 w-64 h-64 bg-sky-500/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl" />
           </div>
           <div className="page-container text-center relative">
             <motion.div
@@ -326,11 +326,11 @@ export default function HomePage() {
             >
               <h2 className="text-4xl font-black text-white mb-4 leading-tight">
                 Ready to Start Trading{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-pink-300">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-300 to-emerald-300">
                   on Campus?
                 </span>
               </h2>
-              <p className="text-violet-200/70 mb-10 text-lg">
+              <p className="text-sky-100/70 mb-10 text-lg">
                 Join thousands of students buying and selling within their institutions safely.
               </p>
               <div className="flex flex-wrap justify-center gap-4">
@@ -357,18 +357,18 @@ export default function HomePage() {
         <div className="page-container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500 to-violet-700 flex items-center justify-center shadow-lg shadow-violet-500/20">
-                <span className="text-white font-black text-sm">TD</span>
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-emerald-600 flex items-center justify-center shadow-lg shadow-sky-500/20">
+                <span className="text-white font-black text-sm">CD</span>
               </div>
               <div>
                 <span className="text-white font-black text-lg tracking-tight">
-                  TTU <span className="text-violet-400">DWASO</span>
+                  CAMPUS <span className="text-sky-400">DWASO</span>
                 </span>
                 <p className="text-gray-500 text-xs">Campus Marketplace Ghana</p>
               </div>
             </div>
             <p className="text-sm text-gray-500">
-              © {new Date().getFullYear()} TTU DWASO. The Campus Marketplace for Ghana.
+              © {new Date().getFullYear()} CAMPUS DWASO. The Campus Marketplace for Ghana.
             </p>
             <div className="flex gap-6 text-sm">
               <Link to="/login" className="hover:text-white transition-colors">Login</Link>

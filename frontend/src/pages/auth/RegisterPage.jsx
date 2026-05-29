@@ -113,11 +113,11 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center shadow-lg">
-              <span className="text-white font-black text-lg">TD</span>
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-sky-500 to-emerald-600 flex items-center justify-center shadow-lg">
+              <span className="text-white font-black text-lg">CD</span>
             </div>
             <span className="font-black text-2xl text-gray-900 dark:text-white">
-              TTU <span className="text-primary-600">DWASO</span>
+              CAMPUS <span className="text-sky-600 dark:text-sky-400">DWASO</span>
             </span>
           </Link>
         </div>

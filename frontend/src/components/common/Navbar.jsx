@@ -38,11 +38,11 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center shadow-md group-hover:shadow-primary-500/30 transition-shadow">
-              <span className="text-white font-black text-sm">TD</span>
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-sky-500 to-emerald-600 flex items-center justify-center shadow-md group-hover:shadow-sky-500/30 transition-shadow">
+              <span className="text-white font-black text-sm">CD</span>
             </div>
             <span className="font-black text-xl text-gray-900 dark:text-white tracking-tight">
-              TTU <span className="text-primary-600">DWASO</span>
+              CAMPUS <span className="text-sky-600 dark:text-sky-400">DWASO</span>
             </span>
           </Link>
 
