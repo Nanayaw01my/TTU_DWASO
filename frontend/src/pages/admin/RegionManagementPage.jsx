@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PlusIcon, PencilSquareIcon, TrashIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import Modal from '../../components/common/Modal';
 import api from '../../utils/api';
 import { getInstitutionBadgeClass, getInstitutionLabel } from '../../utils/helpers';
@@ -43,8 +43,7 @@ export default function RegionManagementPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8">
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -111,7 +110,6 @@ export default function RegionManagementPage() {
           </div>
         )}
       </div>
-
       <Modal isOpen={!!addInstModal} onClose={() => setAddInstModal(null)} title={`Add Institution to ${addInstModal?.name}`}>
         <div className="space-y-4">
           <div>
@@ -141,6 +139,6 @@ export default function RegionManagementPage() {
           </div>
         </div>
       </Modal>
-    </div>
+    </DashboardLayout>
   );
 }

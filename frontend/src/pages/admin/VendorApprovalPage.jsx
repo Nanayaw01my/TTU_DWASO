@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { CheckIcon, XMarkIcon, EyeIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import Modal from '../../components/common/Modal';
 import api from '../../utils/api';
 import { formatDate, getInstitutionBadgeClass, getInstitutionLabel } from '../../utils/helpers';
@@ -53,8 +53,7 @@ export default function VendorApprovalPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8">
         <div className="mb-6">
           <h1 className="section-title">Vendor Approvals</h1>
@@ -196,6 +195,6 @@ export default function VendorApprovalPage() {
           </div>
         </div>
       </Modal>
-    </div>
+    </DashboardLayout>
   );
 }

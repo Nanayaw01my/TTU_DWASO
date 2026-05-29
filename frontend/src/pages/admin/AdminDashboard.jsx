@@ -10,7 +10,7 @@ import {
   UserMinusIcon,
   ChartBarIcon,
 } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import api from '../../utils/api';
 import { formatDate, formatRelativeTime } from '../../utils/helpers';
 import Loader from '../../components/common/Loader';
@@ -42,17 +42,15 @@ export default function AdminDashboard() {
   }, []);
 
   if (loading) return (
-    <div className="min-h-screen dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="min-h-[60vh] flex items-center justify-center"><Loader size="lg" /></div>
-    </div>
+    </DashboardLayout>
   );
 
   const stats = data?.stats || {};
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
@@ -144,6 +142,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

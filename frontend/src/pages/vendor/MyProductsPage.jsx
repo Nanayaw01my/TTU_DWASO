@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PlusIcon, PencilSquareIcon, TrashIcon, EyeIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import api from '../../utils/api';
 import { formatPrice, formatRelativeTime } from '../../utils/helpers';
 import toast from 'react-hot-toast';
@@ -36,8 +36,7 @@ export default function MyProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8">
         <div className="flex items-center justify-between mb-6">
           <h1 className="section-title">My Products</h1>
@@ -101,6 +100,6 @@ export default function MyProductsPage() {
           </div>
         )}
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

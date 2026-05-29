@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MagnifyingGlassIcon, NoSymbolIcon, CheckCircleIcon, TrashIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import Modal from '../../components/common/Modal';
 import api from '../../utils/api';
 import { formatDate, getInstitutionBadgeClass, getInstitutionLabel } from '../../utils/helpers';
@@ -76,8 +76,7 @@ export default function UserManagementPage() {
   const roleColors = { student: 'bg-blue-100 text-blue-700', vendor: 'bg-purple-100 text-purple-700', admin: 'bg-gray-100 text-gray-700' };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8">
         <div className="mb-6">
           <h1 className="section-title">User Management</h1>
@@ -210,6 +209,6 @@ export default function UserManagementPage() {
           </div>
         </div>
       </Modal>
-    </div>
+    </DashboardLayout>
   );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { PaperAirplaneIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 import { formatRelativeTime } from '../../utils/helpers';
@@ -117,9 +117,8 @@ export default function MessagesPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col">
-      <Navbar />
-      <div className="flex-1 flex page-container py-6 gap-6 min-h-0" style={{ maxHeight: 'calc(100vh - 64px)' }}>
+    <DashboardLayout>
+      <div className="flex page-container py-6 gap-6" style={{ height: 'calc(100vh - 56px)' }}>
         {/* Inbox list */}
         <div className="w-72 flex-shrink-0 hidden md:flex flex-col card p-0 overflow-hidden">
           <div className="p-4 border-b border-gray-100 dark:border-gray-800">
@@ -234,6 +233,6 @@ export default function MessagesPage() {
           )}
         </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

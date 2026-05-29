@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import ImageUploader from '../../components/common/ImageUploader';
 import Loader from '../../components/common/Loader';
 import api from '../../utils/api';
@@ -63,15 +63,13 @@ export default function EditProductPage() {
   };
 
   if (loading) return (
-    <div className="min-h-screen dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="min-h-[60vh] flex items-center justify-center"><Loader size="lg" /></div>
-    </div>
+    </DashboardLayout>
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8 max-w-3xl">
         <div className="flex items-center gap-3 mb-6">
           <Link to="/vendor/products" className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
@@ -157,6 +155,6 @@ export default function EditProductPage() {
           </div>
         </form>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
