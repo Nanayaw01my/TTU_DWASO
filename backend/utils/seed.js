@@ -203,24 +203,22 @@ const regionsData = [
   },
 ];
 
-const seedDatabase = async () => {
+const seedDatabase = async (alreadyConnected = false) => {
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log('✅ Connected to MongoDB');
+    if (!alreadyConnected) {
+      await mongoose.connect(process.env.MONGODB_URI);
+      console.log('✅ Connected to MongoDB');
+    }
 
-    // Clear existing data
     await Region.deleteMany({});
     console.log('🗑️  Cleared existing regions');
 
-    // Insert regions
     const regions = await Region.insertMany(regionsData);
     console.log(`✅ Inserted ${regions.length} regions with institutions`);
 
-    // Create admin account
     const existingAdmin = await User.findOne({ role: 'admin' });
     if (!existingAdmin) {
       const garRegion = regions.find((r) => r.code === 'GAR');
-
       await User.create({
         role: 'admin',
         fullName: 'TTU DWASO Admin',
@@ -232,7 +230,6 @@ const seedDatabase = async () => {
         institutionType: 'UNIVERSITY',
         isApproved: true,
       });
-
       console.log('✅ Admin account created');
       console.log(`   Email: ${process.env.ADMIN_EMAIL || 'admin@ttudwaso.edu.gh'}`);
       console.log(`   Password: ${process.env.ADMIN_PASSWORD || 'Admin@TTU2024!'}`);
@@ -241,11 +238,16 @@ const seedDatabase = async () => {
     }
 
     console.log('\n🎉 Database seeded successfully!');
-    process.exit(0);
+
+    if (!alreadyConnected) process.exit(0);
   } catch (error) {
     console.error('❌ Seed error:', error);
-    process.exit(1);
+    if (!alreadyConnected) process.exit(1);
   }
 };
 
-seedDatabase();
+if (require.main === module) {
+  seedDatabase(false);
+}
+
+module.exports = seedDatabase;

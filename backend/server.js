@@ -36,8 +36,16 @@ const io = new Server(server, {
 // Attach io to app for use in controllers
 app.set('io', io);
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB then auto-seed if regions are missing
+connectDB().then(async () => {
+  const Region = require('./models/Region');
+  const count = await Region.countDocuments();
+  if (count === 0) {
+    console.log('🌱 No regions found — running auto-seed...');
+    const seed = require('./utils/seed');
+    await seed(true);
+  }
+}).catch(() => {});
 
 // Security middleware
 app.use(helmet());
