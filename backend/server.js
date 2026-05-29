@@ -48,6 +48,7 @@ connectDB().then(async () => {
 }).catch(() => {});
 
 // Security middleware
+app.set('trust proxy', 1); // Render sits behind a proxy
 app.use(helmet());
 app.use(
   cors({

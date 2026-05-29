@@ -3,7 +3,6 @@ const Product = require('../models/Product');
 exports.createProduct = async (req, res) => {
   const { title, description, price, category, condition, negotiable } = req.body;
 
-  console.log('[createProduct] files received:', req.files?.length ?? 0, req.files?.map(f => f.path));
   const images = (req.files || []).filter((f) => f.path).map((f) => f.path);
 
   const product = await Product.create({
