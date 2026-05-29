@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import ImageUploader from '../../components/common/ImageUploader';
 import api from '../../utils/api';
 import { PRODUCT_CATEGORIES, PRODUCT_CONDITIONS } from '../../utils/helpers';
@@ -46,8 +46,7 @@ export default function AddProductPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8 max-w-3xl">
         <div className="flex items-center gap-3 mb-6">
           <Link to="/vendor/products" className="p-2 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">

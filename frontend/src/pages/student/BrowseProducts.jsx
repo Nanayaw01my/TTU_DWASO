@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { MagnifyingGlassIcon, FunnelIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import ProductCard, { ProductCardSkeleton } from '../../components/common/ProductCard';
 import api from '../../utils/api';
 import { PRODUCT_CATEGORIES, PRODUCT_CONDITIONS } from '../../utils/helpers';
@@ -56,9 +56,7 @@ export default function BrowseProducts() {
   const hasActiveFilters = filters.search || filters.category || filters.condition || filters.minPrice || filters.maxPrice;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
-
+    <DashboardLayout>
       <div className="page-container py-8">
         {/* Header */}
         <div className="mb-6">
@@ -217,6 +215,6 @@ export default function BrowseProducts() {
           </div>
         )}
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

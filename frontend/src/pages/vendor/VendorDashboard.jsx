@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PlusIcon, ShoppingBagIcon, EyeIcon, ChatBubbleLeftRightIcon, PencilSquareIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import { ProductCardSkeleton } from '../../components/common/ProductCard';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
@@ -62,8 +62,7 @@ export default function VendorDashboard() {
 
   if (!user?.isApproved) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-        <Navbar />
+      <DashboardLayout>
         <div className="page-container py-20 text-center">
           <div className="max-w-md mx-auto card p-10">
             <div className="text-5xl mb-4">⏳</div>
@@ -73,13 +72,12 @@ export default function VendorDashboard() {
             </p>
           </div>
         </div>
-      </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
@@ -181,6 +179,6 @@ export default function VendorDashboard() {
           </div>
         )}
       </div>
-    </div>
+    </DashboardLayout>
   );
 }

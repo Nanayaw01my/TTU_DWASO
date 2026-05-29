@@ -16,7 +16,9 @@ export default {
           700: '#1d4ed8',
           800: '#1e40af',
           900: '#1e3a8a',
+          950: '#172554',
         },
+        sidebar: '#0f172a',
         secondary: {
           50: '#f0fdf4',
           100: '#dcfce7',

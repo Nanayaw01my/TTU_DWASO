@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShoppingBagIcon, BuildingLibraryIcon, TagIcon, ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
+import DashboardLayout from '../../components/common/DashboardLayout';
 import ProductCard, { ProductCardSkeleton } from '../../components/common/ProductCard';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
@@ -20,8 +20,7 @@ export default function StudentDashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <Navbar />
+    <DashboardLayout>
       <div className="page-container py-8">
         {/* Welcome banner */}
         <div className="bg-gradient-to-r from-primary-600 to-primary-500 rounded-2xl p-6 text-white mb-8 shadow-lg">
@@ -83,6 +82,6 @@ export default function StudentDashboard() {
           </div>
         )}
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
