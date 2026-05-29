@@ -14,14 +14,62 @@ import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 
 const CATEGORIES = [
-  { name: 'Books', emoji: '📚', color: 'from-blue-500 to-indigo-600' },
-  { name: 'Electronics', emoji: '💻', color: 'from-sky-500 to-cyan-600' },
-  { name: 'Furniture', emoji: '🪑', color: 'from-amber-500 to-orange-600' },
-  { name: 'Clothes', emoji: '👕', color: 'from-pink-500 to-rose-600' },
-  { name: 'Food', emoji: '🍱', color: 'from-green-500 to-emerald-600' },
-  { name: 'Nursing/Medical Supplies', emoji: '🩺', color: 'from-red-500 to-rose-600' },
-  { name: 'Teaching Materials', emoji: '✏️', color: 'from-teal-500 to-cyan-600' },
-  { name: 'Others', emoji: '🛍️', color: 'from-gray-500 to-slate-600' },
+  {
+    name: 'Books',
+    emoji: '📚',
+    gradient: 'from-violet-600 via-purple-600 to-indigo-700',
+    glow: 'hover:shadow-violet-500/40',
+    tag: 'Most listed',
+  },
+  {
+    name: 'Electronics',
+    emoji: '💻',
+    gradient: 'from-blue-600 via-cyan-600 to-sky-700',
+    glow: 'hover:shadow-blue-500/40',
+    tag: 'Trending',
+  },
+  {
+    name: 'Furniture',
+    emoji: '🪑',
+    gradient: 'from-indigo-600 via-violet-600 to-purple-700',
+    glow: 'hover:shadow-indigo-500/40',
+    tag: '',
+  },
+  {
+    name: 'Clothes',
+    emoji: '👗',
+    gradient: 'from-fuchsia-600 via-pink-600 to-rose-700',
+    glow: 'hover:shadow-fuchsia-500/40',
+    tag: '',
+  },
+  {
+    name: 'Food',
+    emoji: '🍱',
+    gradient: 'from-sky-600 via-blue-600 to-indigo-700',
+    glow: 'hover:shadow-sky-500/40',
+    tag: '',
+  },
+  {
+    name: 'Nursing/Medical Supplies',
+    emoji: '🩺',
+    gradient: 'from-blue-700 via-indigo-600 to-violet-700',
+    glow: 'hover:shadow-blue-500/40',
+    tag: 'For nurses',
+  },
+  {
+    name: 'Teaching Materials',
+    emoji: '✏️',
+    gradient: 'from-purple-600 via-indigo-600 to-blue-700',
+    glow: 'hover:shadow-purple-500/40',
+    tag: 'For teachers',
+  },
+  {
+    name: 'Others',
+    emoji: '🛍️',
+    gradient: 'from-slate-600 via-slate-700 to-slate-800',
+    glow: 'hover:shadow-slate-500/40',
+    tag: '',
+  },
 ];
 
 const FEATURES = [
@@ -227,13 +275,12 @@ export default function HomePage() {
       </section>
 
       {/* Categories */}
-      <section className="py-20 bg-gray-50 dark:bg-slate-950">
+      <section className="py-24 bg-slate-950">
         <div className="page-container">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <h2 className="section-title">Browse Categories</h2>
-              <p className="text-gray-500 dark:text-gray-400 mt-1">Find exactly what you need on campus</p>
-            </div>
+          <div className="text-center mb-14">
+            <p className="text-violet-400 text-sm font-semibold tracking-widest uppercase mb-3">Shop by Category</p>
+            <h2 className="text-3xl sm:text-4xl font-black text-white">Everything you need on campus</h2>
+            <p className="text-slate-400 mt-3 max-w-xl mx-auto">From textbooks to furniture — find it all within your institution.</p>
           </div>
           <motion.div
             variants={containerVariants}
@@ -246,14 +293,33 @@ export default function HomePage() {
               <motion.div key={cat.name} variants={itemVariants}>
                 <Link
                   to={isAuthenticated ? `/student/browse?category=${encodeURIComponent(cat.name)}` : '/login'}
-                  className="group flex flex-col items-center gap-3 p-6 rounded-2xl bg-white dark:bg-slate-900 border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:-translate-y-1.5 hover:border-violet-200 dark:hover:border-violet-800/50 transition-all duration-300 text-center"
+                  className={`group relative overflow-hidden flex flex-col justify-between p-5 rounded-2xl bg-gradient-to-br ${cat.gradient} shadow-lg ${cat.glow} hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 min-h-[140px]`}
                 >
-                  <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center text-2xl shadow-md group-hover:scale-110 transition-transform duration-300`}>
-                    {cat.emoji}
+                  {/* Subtle noise texture overlay */}
+                  <div className="absolute inset-0 opacity-10 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cfilter%20id%3D%22n%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.9%22%20numOctaves%3D%224%22%20stitchTiles%3D%22stitch%22/%3E%3C/filter%3E%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20filter%3D%22url(%23n)%22%20opacity%3D%221%22/%3E%3C/svg%3E')]" />
+
+                  {/* Top row: emoji + tag */}
+                  <div className="flex items-start justify-between">
+                    <span className="text-3xl drop-shadow-lg group-hover:scale-110 transition-transform duration-300 inline-block">
+                      {cat.emoji}
+                    </span>
+                    {cat.tag && (
+                      <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 text-white px-2 py-0.5 rounded-full backdrop-blur-sm">
+                        {cat.tag}
+                      </span>
+                    )}
                   </div>
-                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-300 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">
-                    {cat.name}
-                  </span>
+
+                  {/* Bottom: name + arrow */}
+                  <div className="flex items-end justify-between mt-4">
+                    <span className="text-sm font-bold text-white leading-tight">
+                      {cat.name}
+                    </span>
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-white/80 text-lg">→</span>
+                  </div>
+
+                  {/* Glow orb */}
+                  <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full bg-white/10 blur-xl group-hover:scale-150 transition-transform duration-500" />
                 </Link>
               </motion.div>
             ))}
