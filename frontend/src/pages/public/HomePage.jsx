@@ -1,383 +1,452 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import {
-  ShoppingBagIcon,
-  BuildingLibraryIcon,
-  ShieldCheckIcon,
   MagnifyingGlassIcon,
-  ChevronRightIcon,
+  MapPinIcon,
+  HomeIcon,
+  PlusCircleIcon,
+  ChatBubbleLeftIcon,
+  UserCircleIcon,
 } from '@heroicons/react/24/outline';
-import Navbar from '../../components/common/Navbar';
 import ProductCard, { ProductCardSkeleton } from '../../components/common/ProductCard';
 import api from '../../utils/api';
 import { useAuth } from '../../context/AuthContext';
 
 const CATEGORIES = [
-  { name: 'Books', emoji: '📚', tag: 'Most listed' },
-  { name: 'Electronics', emoji: '💻', tag: 'Trending' },
-  { name: 'Furniture', emoji: '🪑', tag: '' },
-  { name: 'Clothes', emoji: '👗', tag: '' },
-  { name: 'Food', emoji: '🍱', tag: '' },
-  { name: 'Nursing/Medical Supplies', emoji: '🩺', tag: 'For nurses' },
-  { name: 'Teaching Materials', emoji: '✏️', tag: 'For teachers' },
-  { name: 'Others', emoji: '🛍️', tag: '' },
+  { name: 'Books', emoji: '📚', shortName: 'Books' },
+  { name: 'Electronics', emoji: '💻', shortName: 'Electronics' },
+  { name: 'Furniture', emoji: '🪑', shortName: 'Furniture' },
+  { name: 'Clothes', emoji: '👗', shortName: 'Clothes' },
+  { name: 'Food', emoji: '🍱', shortName: 'Food' },
+  { name: 'Nursing/Medical Supplies', emoji: '🩺', shortName: 'Medical' },
+  { name: 'Teaching Materials', emoji: '✏️', shortName: 'Teaching' },
+  { name: 'Others', emoji: '🛍️', shortName: 'Others' },
 ];
 
-const FEATURES = [
-  {
-    icon: BuildingLibraryIcon,
-    title: 'Browse All Institutions',
-    desc: 'Shop products from any campus across all 16 regions of Ghana — no institution lock.',
-    gradient: 'from-yellow-400 to-amber-500',
-    glow: 'shadow-yellow-400/20',
-  },
-  {
-    icon: ShieldCheckIcon,
-    title: 'Verified Vendors',
-    desc: 'All vendors undergo Ghana Card verification and admin approval before selling.',
-    gradient: 'from-amber-400 to-yellow-500',
-    glow: 'shadow-amber-400/20',
-  },
-  {
-    icon: ShoppingBagIcon,
-    title: 'All Student Needs',
-    desc: 'Books, electronics, furniture, food, nursing supplies, and teaching materials.',
-    gradient: 'from-yellow-500 to-amber-400',
-    glow: 'shadow-yellow-500/20',
-  },
-];
-
-const STATS = [
-  { value: '16', label: 'Ghana Regions' },
-  { value: '80+', label: 'Institutions' },
-  { value: '3', label: 'User Roles' },
-  { value: '8', label: 'Categories' },
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.08 } },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-};
-
-export default function HomePage() {
+const HomePage = () => {
   const { user, isAuthenticated } = useAuth();
   const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [trendingProducts, setTrendingProducts] = useState([]);
+  const [regions, setRegions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
+  const [selectedRegion, setSelectedRegion] = useState('');
+
+  const getDashboardPath = () => {
+    if (!user) return '/register';
+    return (
+      { admin: '/admin/dashboard', vendor: '/vendor/dashboard', student: '/student/dashboard' }[
+        user.role
+      ] || '/'
+    );
+  };
 
   useEffect(() => {
-    api
-      .get('/products?limit=8&sortBy=views&order=desc')
-      .then(({ data }) => setFeaturedProducts(data.products))
+    Promise.all([
+      api.get('/products?limit=8&sortBy=createdAt&order=desc'),
+      api.get('/products?limit=8&sortBy=views&order=desc'),
+      api.get('/regions'),
+    ])
+      .then(([rec, trend, reg]) => {
+        setFeaturedProducts(rec.data.products || []);
+        setTrendingProducts(trend.data.products || []);
+        setRegions(reg.data.regions || []);
+      })
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);
 
-  const getDashboardPath = () => {
-    if (!user) return '/register';
-    return { admin: '/admin/dashboard', vendor: '/vendor/dashboard', student: '/student/dashboard' }[user.role] || '/';
-  };
-
   return (
-    <div className="min-h-screen bg-white dark:bg-zinc-950">
-      <Navbar />
-
-      {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-black via-zinc-900 to-black text-white">
-        {/* Decorative blobs */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-yellow-400/10 rounded-full filter blur-3xl" />
-          <div className="absolute top-1/2 -right-32 w-80 h-80 bg-amber-400/10 rounded-full filter blur-3xl" />
-          {/* Grid pattern overlay */}
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)',
-              backgroundSize: '50px 50px',
-            }}
-          />
-        </div>
-
-        <div className="page-container py-24 relative">
-          <div className="max-w-4xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm rounded-full px-4 py-1.5 text-sm font-medium mb-8 border border-white/20">
-                <span className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-                Campus Marketplace Platform
-              </div>
-
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black leading-[1.05] mb-6 tracking-tight">
-                Buy & Sell Across{' '}
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-300">
-                  Every Campus
-                </span>
-              </h1>
-
-              <p className="text-lg text-zinc-300/70 mb-10 max-w-2xl leading-relaxed">
-                CAMPUS DWASO connects students, vendors, and institutions across all 16 regions of Ghana.
-                Browse products from any university, nursing college, or teacher training college.
-              </p>
-
-              {/* Search bar */}
-              <div className="flex gap-3 max-w-xl mb-10">
-                <div className="relative flex-1">
-                  <MagnifyingGlassIcon className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50" />
-                  <input
-                    type="text"
-                    placeholder="Search for products..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-white/40 focus:outline-none focus:border-yellow-400/60 focus:bg-white/15 transition-all"
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' && search.trim()) {
-                        window.location.href = `/student/browse?search=${encodeURIComponent(search)}`;
-                      }
-                    }}
-                  />
-                </div>
-                <Link
-                  to={isAuthenticated ? `/student/browse?search=${encodeURIComponent(search)}` : '/login'}
-                  className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-6 py-3.5 rounded-xl transition-all duration-200 whitespace-nowrap shadow-lg shadow-yellow-400/30 hover:-translate-y-0.5"
-                >
-                  Search
-                </Link>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  to={getDashboardPath()}
-                  className="flex items-center gap-2 bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-7 py-3.5 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-                >
-                  {isAuthenticated ? 'My Dashboard' : 'Get Started'}
-                  <ChevronRightIcon className="h-4 w-4" />
-                </Link>
-                {!isAuthenticated && (
-                  <Link
-                    to="/login"
-                    className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold px-7 py-3.5 rounded-xl hover:bg-white/20 transition-all duration-200 hover:-translate-y-0.5"
-                  >
-                    Sign In
-                  </Link>
-                )}
-              </div>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="bg-zinc-950 text-white py-10 border-b border-zinc-800">
-        <div className="page-container">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            {STATS.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-              >
-                <div className="text-4xl font-black mb-1 text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-amber-300">
-                  {stat.value}
-                </div>
-                <div className="text-zinc-400 text-sm font-medium">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="py-20 bg-white dark:bg-zinc-900">
-        <div className="page-container">
-          <div className="text-center mb-14">
-            <h2 className="text-3xl font-black text-zinc-900 dark:text-zinc-100 mb-3">Why CAMPUS DWASO?</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 max-w-xl mx-auto">Built specifically for Ghanaian campus communities — secure, verified, and community-focused.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {FEATURES.map((feat, i) => (
-              <motion.div
-                key={feat.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.12 }}
-                className="group relative p-6 rounded-2xl border border-zinc-100 dark:border-zinc-800 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-zinc-800/50"
-              >
-                <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${feat.gradient} flex items-center justify-center mb-4 shadow-lg ${feat.glow}`}>
-                  <feat.icon className="h-6 w-6 text-black" />
-                </div>
-                <h3 className="font-bold text-zinc-900 dark:text-zinc-100 mb-2 text-lg">{feat.title}</h3>
-                <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{feat.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Categories */}
-      <section className="py-24 bg-zinc-950">
-        <div className="page-container">
-          <div className="text-center mb-14">
-            <p className="text-yellow-400 text-sm font-semibold tracking-widest uppercase mb-3">Shop by Category</p>
-            <h2 className="text-3xl sm:text-4xl font-black text-white">Everything you need on campus</h2>
-            <p className="text-zinc-400 mt-3 max-w-xl mx-auto">From textbooks to furniture — find it all across all institutions.</p>
-          </div>
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
-          >
-            {CATEGORIES.map((cat) => (
-              <motion.div key={cat.name} variants={itemVariants}>
-                <Link
-                  to={isAuthenticated ? `/student/browse?category=${encodeURIComponent(cat.name)}` : '/login'}
-                  className="group relative overflow-hidden flex flex-col justify-between p-5 rounded-2xl bg-zinc-900 border-2 border-zinc-800 hover:border-yellow-400 hover:shadow-xl hover:shadow-yellow-400/10 hover:-translate-y-1.5 transition-all duration-300 min-h-[140px]"
-                >
-                  <div className="flex items-start justify-between">
-                    <span className="text-3xl group-hover:scale-110 transition-transform duration-300 inline-block">{cat.emoji}</span>
-                    {cat.tag && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider bg-yellow-400/10 text-yellow-400 px-2 py-0.5 rounded-full border border-yellow-400/30">{cat.tag}</span>
-                    )}
-                  </div>
-                  <div className="flex items-end justify-between mt-4">
-                    <span className="text-sm font-bold text-white">{cat.name}</span>
-                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-yellow-400 text-lg">→</span>
-                  </div>
-                  <div className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full bg-yellow-400/5 blur-xl group-hover:scale-150 transition-transform duration-500" />
-                </Link>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Featured Products */}
-      <section className="py-20 bg-white dark:bg-zinc-900">
-        <div className="page-container">
-          <div className="flex items-center justify-between mb-10">
-            <div>
-              <h2 className="section-title">Featured Products</h2>
-              <p className="text-zinc-500 dark:text-zinc-400 mt-1">Most viewed items across all institutions</p>
+    <div className="min-h-screen bg-zinc-950 pb-16 sm:pb-0">
+      {/* ── Sticky Navbar ── */}
+      <header className="sticky top-0 z-50 bg-black border-b border-zinc-800">
+        <div className="flex items-center justify-between px-4 py-3 max-w-7xl mx-auto">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-yellow-400 flex items-center justify-center">
+              <span className="text-black font-black text-sm">CD</span>
             </div>
+            <span className="text-white font-black text-lg tracking-tight">
+              Campus<span className="text-yellow-400">Dwaso</span>
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            {isAuthenticated ? (
+              <Link
+                to={getDashboardPath()}
+                className="bg-yellow-400 text-black font-bold px-4 py-2 rounded-xl text-sm"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="text-zinc-300 font-medium text-sm px-3 py-2">
+                  Sign In
+                </Link>
+                <Link
+                  to="/register"
+                  className="bg-yellow-400 text-black font-bold px-4 py-2 rounded-xl text-sm"
+                >
+                  Join Free
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* ── Hero Search ── */}
+      <section className="bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-950 pt-8 pb-10 px-4">
+        <div className="max-w-2xl mx-auto text-center mb-6">
+          <div className="inline-flex items-center gap-2 bg-yellow-400/10 border border-yellow-400/30 rounded-full px-3 py-1 text-yellow-400 text-xs font-semibold mb-4">
+            <span className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-pulse" />
+            Ghana's Campus Marketplace
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-black text-white leading-tight mb-2">
+            Find anything on
+            <br />
+            <span className="text-yellow-400">your campus</span>
+          </h1>
+          <p className="text-zinc-400 text-sm">
+            80+ institutions · 16 regions · thousands of listings
+          </p>
+        </div>
+
+        <div className="max-w-2xl mx-auto">
+          <div className="flex gap-2 bg-white rounded-2xl p-2 shadow-2xl shadow-black/50">
+            <div className="flex items-center gap-1.5 pl-2 border-r border-zinc-200 pr-3 min-w-0 shrink-0">
+              <MapPinIcon className="h-4 w-4 text-yellow-500 shrink-0" />
+              <select
+                className="text-sm font-medium text-zinc-700 bg-transparent focus:outline-none max-w-[90px] cursor-pointer"
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
+              >
+                <option value="">All Ghana</option>
+                {regions.map((r) => (
+                  <option key={r._id || r} value={r.name || r}>
+                    {r.name || r}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <input
+              type="text"
+              placeholder="Search for products, books, electronics..."
+              className="flex-1 text-sm text-zinc-800 placeholder-zinc-400 bg-transparent focus:outline-none px-2 min-w-0"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  window.location.href = isAuthenticated
+                    ? `/student/browse?search=${encodeURIComponent(search)}`
+                    : '/login';
+                }
+              }}
+            />
             <Link
-              to={isAuthenticated ? '/student/browse' : '/login'}
-              className="flex items-center gap-1 text-sm font-semibold text-yellow-500 dark:text-yellow-400 hover:text-yellow-600 dark:hover:text-yellow-300 transition-colors"
+              to={
+                isAuthenticated
+                  ? `/student/browse?search=${encodeURIComponent(search)}`
+                  : '/login'
+              }
+              className="bg-yellow-400 hover:bg-yellow-300 text-black font-bold px-5 py-2.5 rounded-xl text-sm transition-all shrink-0 flex items-center gap-1"
             >
-              View all <ChevronRightIcon className="h-4 w-4" />
+              <MagnifyingGlassIcon className="h-4 w-4" />
+              <span className="hidden sm:inline">Search</span>
             </Link>
           </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Array.from({ length: 8 }).map((_, i) => <ProductCardSkeleton key={i} />)}
-            </div>
-          ) : featuredProducts.length > 0 ? (
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          <div className="flex items-center gap-2 mt-3 overflow-x-auto scrollbar-hide">
+            <span className="text-zinc-500 text-xs shrink-0">Popular:</span>
+            {['Textbooks', 'Laptops', 'Uniforms', 'Food', 'Notes'].map((term) => (
+              <Link
+                key={term}
+                to={isAuthenticated ? `/student/browse?search=${term}` : '/login'}
+                className="shrink-0 text-xs bg-zinc-800 text-zinc-300 px-3 py-1.5 rounded-full hover:bg-yellow-400/10 hover:text-yellow-400 transition-colors"
+              >
+                {term}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Category Pills ── */}
+      <section className="bg-zinc-950 py-4 border-b border-zinc-800">
+        <div className="flex gap-2 overflow-x-auto scrollbar-hide px-4 max-w-7xl mx-auto">
+          {['All', 'Books', 'Electronics', 'Furniture', 'Clothes', 'Food', 'Medical', 'Teaching', 'Others'].map(
+            (cat, i) => (
+              <Link
+                key={cat}
+                to={
+                  cat === 'All'
+                    ? isAuthenticated
+                      ? '/student/browse'
+                      : '/login'
+                    : isAuthenticated
+                    ? `/student/browse?category=${encodeURIComponent(cat)}`
+                    : '/login'
+                }
+                className={`shrink-0 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                  i === 0
+                    ? 'bg-yellow-400 text-black'
+                    : 'bg-zinc-800 text-zinc-300 hover:bg-zinc-700'
+                }`}
+              >
+                {cat}
+              </Link>
+            )
+          )}
+        </div>
+      </section>
+
+      {/* ── Category Grid ── */}
+      <section className="bg-white py-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-lg font-black text-zinc-900">Browse Categories</h2>
+            <Link
+              to={isAuthenticated ? '/student/browse' : '/login'}
+              className="text-yellow-500 text-sm font-semibold"
             >
-              {featuredProducts.map((product) => (
-                <motion.div key={product._id} variants={itemVariants}>
-                  <ProductCard product={product} />
-                </motion.div>
+              See all →
+            </Link>
+          </div>
+          <div className="grid grid-cols-4 sm:grid-cols-8 gap-3">
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.name}
+                to={
+                  isAuthenticated
+                    ? `/student/browse?category=${encodeURIComponent(cat.name)}`
+                    : '/login'
+                }
+                className="flex flex-col items-center gap-2 group"
+              >
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-zinc-100 flex items-center justify-center text-2xl group-hover:bg-yellow-400/10 group-hover:scale-105 transition-all duration-200 border border-zinc-200 group-hover:border-yellow-400/50">
+                  {cat.emoji}
+                </div>
+                <span className="text-xs font-medium text-zinc-600 text-center leading-tight group-hover:text-yellow-500 transition-colors">
+                  {cat.shortName || cat.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Trending Now ── */}
+      <section className="bg-zinc-950 py-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center gap-2">
+              <span className="text-lg font-black text-white">Trending Now</span>
+              <span className="bg-yellow-400 text-black text-[10px] font-black px-2 py-0.5 rounded-full uppercase tracking-wide">
+                Hot
+              </span>
+            </div>
+            <Link
+              to={isAuthenticated ? '/student/browse?sortBy=views&order=desc' : '/login'}
+              className="text-yellow-500 text-sm font-semibold"
+            >
+              See all →
+            </Link>
+          </div>
+          <div className="flex gap-4 overflow-x-auto scrollbar-hide pb-2">
+            {trendingProducts.map((p) => (
+              <Link key={p._id} to={`/products/${p._id}`} className="shrink-0 w-44 sm:w-52">
+                <div className="bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-800 hover:border-yellow-400/50 transition-all hover:-translate-y-1 duration-200">
+                  <div className="relative h-36 bg-zinc-800">
+                    <img
+                      src={p.images?.[0] || '/placeholder.svg'}
+                      alt={p.title}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = '/placeholder.svg';
+                      }}
+                    />
+                    <div className="absolute top-2 left-2 bg-yellow-400 text-black text-[9px] font-black px-1.5 py-0.5 rounded-full uppercase">
+                      Trending
+                    </div>
+                  </div>
+                  <div className="p-3">
+                    <p className="text-white text-sm font-semibold truncate">{p.title}</p>
+                    <p className="text-yellow-400 font-black text-base mt-0.5">
+                      GHS {p.price?.toFixed(2)}
+                    </p>
+                    <p className="text-zinc-500 text-[11px] mt-1 truncate">{p.institution}</p>
+                  </div>
+                </div>
+              </Link>
+            ))}
+            {trendingProducts.length === 0 && !loading && (
+              <p className="text-zinc-500 text-sm">No trending products yet</p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Recommended For You ── */}
+      <section className="bg-white py-8 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-lg font-black text-zinc-900">Recommended</h2>
+            <Link
+              to={isAuthenticated ? '/student/browse' : '/login'}
+              className="text-yellow-500 text-sm font-semibold"
+            >
+              See all →
+            </Link>
+          </div>
+          {loading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
               ))}
-            </motion.div>
+            </div>
           ) : (
-            <div className="text-center py-20 text-zinc-400">
-              <div className="w-20 h-20 rounded-2xl bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mx-auto mb-4">
-                <ShoppingBagIcon className="h-10 w-10 opacity-40" />
-              </div>
-              <p className="text-lg font-medium text-zinc-600 dark:text-zinc-300">No products yet</p>
-              <p className="text-sm mt-1">Be the first to list something on CAMPUS DWASO!</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {featuredProducts.map((p) => (
+                <ProductCard key={p._id} product={p} />
+              ))}
+              {featuredProducts.length === 0 && (
+                <p className="col-span-full text-zinc-500 text-sm text-center py-8">
+                  No products listed yet. Be the first to sell!
+                </p>
+              )}
             </div>
           )}
         </div>
       </section>
 
-      {/* CTA */}
-      {!isAuthenticated && (
-        <section className="py-20 bg-black relative overflow-hidden">
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 left-1/4 w-64 h-64 bg-yellow-400/5 rounded-full blur-3xl" />
-            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-amber-400/5 rounded-full blur-3xl" />
-          </div>
-          <div className="page-container text-center relative">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-2xl mx-auto"
-            >
-              <h2 className="text-4xl font-black text-white mb-4 leading-tight">
-                Ready to Start Trading{' '}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-amber-300">
-                  on Campus?
-                </span>
-              </h2>
-              <p className="text-zinc-300/70 mb-10 text-lg">
-                Join thousands of students buying and selling across Ghanaian campuses safely.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link
-                  to="/register?role=student"
-                  className="btn-primary text-base px-8 py-3.5"
-                >
-                  Join as Student
-                </Link>
-                <Link
-                  to="/register?role=vendor"
-                  className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold px-8 py-3.5 rounded-xl hover:bg-white/20 transition-all duration-200 text-base"
-                >
-                  Become a Vendor
-                </Link>
+      {/* ── How It Works ── */}
+      <section className="bg-zinc-950 py-10 px-4 border-t border-zinc-800">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-lg font-black text-white mb-6 text-center">
+            How Campus Dwaso Works
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              {
+                step: '01',
+                title: 'Create Account',
+                desc: 'Register as a student or vendor with your institution details',
+                icon: '🎓',
+              },
+              {
+                step: '02',
+                title: 'Browse & Buy',
+                desc: 'Search products from any campus across Ghana',
+                icon: '🛍️',
+              },
+              {
+                step: '03',
+                title: 'List & Sell',
+                desc: 'Vendors list items and connect with buyers directly',
+                icon: '💰',
+              },
+            ].map((item) => (
+              <div key={item.step} className="bg-zinc-900 rounded-2xl p-5 border border-zinc-800">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">{item.icon}</span>
+                  <span className="text-yellow-400 font-black text-xs">STEP {item.step}</span>
+                </div>
+                <h3 className="text-white font-bold mb-1">{item.title}</h3>
+                <p className="text-zinc-400 text-sm">{item.desc}</p>
               </div>
-            </motion.div>
+            ))}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
-      {/* Footer */}
-      <footer className="bg-black text-zinc-400 pt-12 pb-6 border-t border-zinc-900">
-        <div className="page-container">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center shadow-lg shadow-yellow-400/20">
-                <span className="text-black font-black text-sm">CD</span>
-              </div>
-              <div>
-                <span className="text-white font-black text-lg tracking-tight">
-                  CAMPUS <span className="text-yellow-400">DWASO</span>
-                </span>
-                <p className="text-zinc-500 text-xs">Campus Marketplace Ghana</p>
-              </div>
+      {/* ── CTA Banner ── */}
+      <section className="bg-yellow-400 py-10 px-4">
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-2xl font-black text-black mb-2">Ready to start selling?</h2>
+          <p className="text-black/70 text-sm mb-5">
+            Join thousands of campus vendors already on Campus Dwaso
+          </p>
+          <Link
+            to="/register"
+            className="inline-block bg-black text-white font-bold px-8 py-3 rounded-xl text-sm hover:bg-zinc-900 transition-colors"
+          >
+            Create Free Account
+          </Link>
+        </div>
+      </section>
+
+      {/* ── Footer ── */}
+      <footer className="bg-black border-t border-zinc-800 px-4 py-6">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-lg bg-yellow-400 flex items-center justify-center">
+              <span className="text-black font-black text-xs">CD</span>
             </div>
-            <p className="text-sm text-zinc-500">
-              © {new Date().getFullYear()} CAMPUS DWASO. The Campus Marketplace for Ghana.
-            </p>
-            <div className="flex gap-6 text-sm">
-              <Link to="/login" className="hover:text-white transition-colors">Login</Link>
-              <Link to="/register" className="hover:text-white transition-colors">Register</Link>
-            </div>
+            <span className="text-white font-black text-base tracking-tight">
+              Campus<span className="text-yellow-400">Dwaso</span>
+            </span>
           </div>
-          <div className="h-1 bg-gradient-to-r from-yellow-400 to-amber-500 rounded-full" />
+          <p className="text-zinc-500 text-xs text-center">
+            © {new Date().getFullYear()} Campus Dwaso · Ghana's Campus Marketplace
+          </p>
+          <div className="flex gap-4">
+            <Link to="/login" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
+              Sign In
+            </Link>
+            <Link to="/register" className="text-zinc-500 hover:text-zinc-300 text-xs transition-colors">
+              Register
+            </Link>
+          </div>
         </div>
       </footer>
+
+      {/* ── Fixed Bottom Navigation (mobile only) ── */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 sm:hidden bg-black border-t border-zinc-800">
+        <div className="flex items-center justify-around px-2 py-2">
+          <Link to="/" className="flex flex-col items-center gap-0.5 px-3 py-1 group">
+            <HomeIcon className="h-5 w-5 text-yellow-400" />
+            <span className="text-[10px] text-yellow-400 font-semibold">Home</span>
+          </Link>
+          <Link
+            to={isAuthenticated ? '/student/browse' : '/login'}
+            className="flex flex-col items-center gap-0.5 px-3 py-1 group"
+          >
+            <MagnifyingGlassIcon className="h-5 w-5 text-zinc-400 group-hover:text-yellow-400" />
+            <span className="text-[10px] text-zinc-400 group-hover:text-yellow-400 font-medium">
+              Browse
+            </span>
+          </Link>
+          <Link
+            to={isAuthenticated ? '/vendor/products/add' : '/login'}
+            className="flex flex-col items-center gap-0.5 -mt-4"
+          >
+            <div className="w-12 h-12 bg-yellow-400 rounded-2xl flex items-center justify-center shadow-lg shadow-yellow-400/30">
+              <PlusCircleIcon className="h-6 w-6 text-black" />
+            </div>
+            <span className="text-[10px] text-zinc-400 mt-1 font-medium">Sell</span>
+          </Link>
+          <Link
+            to={isAuthenticated ? '/student/messages' : '/login'}
+            className="flex flex-col items-center gap-0.5 px-3 py-1 group"
+          >
+            <ChatBubbleLeftIcon className="h-5 w-5 text-zinc-400 group-hover:text-yellow-400" />
+            <span className="text-[10px] text-zinc-400 group-hover:text-yellow-400 font-medium">
+              Messages
+            </span>
+          </Link>
+          <Link
+            to={isAuthenticated ? getDashboardPath() : '/login'}
+            className="flex flex-col items-center gap-0.5 px-3 py-1 group"
+          >
+            <UserCircleIcon className="h-5 w-5 text-zinc-400 group-hover:text-yellow-400" />
+            <span className="text-[10px] text-zinc-400 group-hover:text-yellow-400 font-medium">
+              Profile
+            </span>
+          </Link>
+        </div>
+      </nav>
     </div>
   );
-}
+};
+
+export default HomePage;
