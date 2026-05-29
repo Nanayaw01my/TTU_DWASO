@@ -49,9 +49,7 @@ export default function EditProductPage() {
         newImages.forEach((file) => formData.append('images', file));
       }
 
-      await api.put(`/products/${id}`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      await api.put(`/products/${id}`, formData);
 
       toast.success('Product updated!');
       navigate('/vendor/products');

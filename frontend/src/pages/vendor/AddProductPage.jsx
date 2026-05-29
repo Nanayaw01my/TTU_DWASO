@@ -32,9 +32,7 @@ export default function AddProductPage() {
       formData.append('negotiable', data.negotiable ? 'true' : 'false');
       imageFiles.forEach((file) => formData.append('images', file));
 
-      await api.post('/products', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
+      await api.post('/products', formData);
 
       toast.success('Product listed successfully!');
       navigate('/vendor/products');
