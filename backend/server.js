@@ -49,7 +49,18 @@ connectDB().then(async () => {
 
 // Security middleware
 app.set('trust proxy', 1); // Render sits behind a proxy
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      imgSrc: ["'self'", 'data:', 'blob:', 'https://res.cloudinary.com'],
+      connectSrc: ["'self'", 'https://api.cloudinary.com'],
+    },
+  },
+}));
 app.use(
   cors({
     origin: process.env.CLIENT_URL || 'http://localhost:5173',
