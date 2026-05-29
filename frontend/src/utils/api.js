@@ -6,6 +6,14 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+// Let the browser set Content-Type automatically for FormData (preserves multipart boundary)
+api.interceptors.request.use((config) => {
+  if (config.data instanceof FormData) {
+    delete config.headers['Content-Type'];
+  }
+  return config;
+});
+
 // Response interceptor for global error handling
 api.interceptors.response.use(
   (response) => response,
